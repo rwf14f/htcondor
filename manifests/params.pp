@@ -6,15 +6,19 @@ class htcondor::params {
 
   $is_manager                     = hiera('is_manager', false)
   $is_scheduler                   = hiera('is_scheduler', false)
+  $is_remote_submit               = hiera('is_remote_submit', false)
   $is_worker                      = hiera('is_worker', false)
 
   $cluster_has_multiple_domains   = hiera('cluster_has_multiple_domains', false)
   $collector_name                 = hiera('collector_name', 'Personal Condor at $(FULL_HOSTNAME)'
   )
+  $collector_query_workers        = hiera('collector_query_workers', 16)
+  $collector_max_file_descriptors = hiera('collector_max_file_descriptors', undef)
   $repo_priority                  = hiera('repo_priority', '99')
   $condor_version                 = hiera('condor_version', 'present')
   $custom_machine_attributes      = hiera_hash('custom_machine_attribute', {})
   $custom_job_attributes          = hiera_hash('custom_job_attributes', {})
+  $claim_worklife                 = hiera('claim_worklife', 0)
 
   $use_debug_notify               = hiera('use_debug_notify', true)
 
@@ -22,9 +26,18 @@ class htcondor::params {
   # for more information see https://research.cs.wisc.edu/htcondor/privacy.html
   $enable_condor_reporting        = hiera('enable_condor_reporting', true)
   $enable_cgroup                  = hiera('enable_cgroup', false)
-  $enable_multicore               = hiera('enable_multicore', false)
   $enable_healthcheck             = hiera('enable_healthcheck', false)
-
+  $start_always_users             = hiera_array('start_always_users', [])
+  $enable_multicore               = hiera('enable_multicore', false)
+  # defrag parameters
+  $defrag_interval                 = hiera('defrag_interval',600)
+  $defrag_draining_machines_per_hr = hiera('defrag_draining_machines_per_hr',60)
+  $defrag_max_concurrent_draining  = hiera('defrag_max_concurrent_draining',8)
+  $defrag_max_whole_machines       = hiera('defrag_max_whole_machines',20)
+  $defrag_schedule                 = hiera('defrag_schedule','graceful')
+  $defrag_rank                     = hiera('defrag_rank','ifThenElse(Cpus >= 8, -10, (TotalCpus - Cpus)/(8.0 - Cpus))')
+  $whole_machine_cpus              = hiera('whole_machine_cpus',8)
+  $defrag_requirements             = hiera('defrag_requirements','PartitionableSlot && Offline =!= True && StartJobs =?= True')
 
   if $facts['os']['family'] == 'RedHat' and $facts['os']['release']['major'] == '7' {
     $htcondor_cgroup_default = '/system.slice/condor.service'
@@ -33,6 +46,7 @@ class htcondor::params {
     $htcondor_cgroup_default = 'htcondor'
   }
   $htcondor_cgroup                = hiera('htcondor_cgroup', $htcondor_cgroup_default)
+  $cgroup_memory_limit            = hiera('cgroup_memory_limit', 'soft')
 
 
   $high_priority_groups           = hiera_hash('high_priority_groups', undef)
@@ -56,11 +70,17 @@ class htcondor::params {
   $group_accept_surplus           = hiera('group_accept_surplus', true)
   $group_autoregroup              = hiera('group_autoregroup', true)
 
-  $health_check_script            = hiera('health_check_script', "puppet:///modules/${module_name}/healhcheck_wn_condor"
+  $healthcheck_path               = hiera('healthcheck_path', '/usr/local/bin/healthcheck_wn_condor')
+  $healthcheck_script             = hiera('healthcheck_script', "puppet:///modules/${module_name}/healthcheck_wn_condor"
   )
+  $healthcheck_period             = hiera('healthcheck_period', '10m')
   $include_username_in_accounting = hiera('include_username_in_accounting',
   false)
   $install_repositories           = hiera('install_repositories', true)
+  $gpgcheck                       = hiera('gpgcheck', true)
+  $gpgkey                         = hiera('gpgkey', 'http://htcondor.org/yum/RPM-GPG-KEY-HTCondor')
+  $condor_major_version           = hiera('condor_major_version', '8.8')
+  $versioned_repos                = hiera('versioned_repos', false)
   $dev_repositories               = hiera('dev_repositories', false)
 
   $machine_owner                  = hiera('machine_owner', 'physics')
@@ -73,6 +93,7 @@ class htcondor::params {
   $request_memory                 = hiera('request_memory', true)
 
   $starter_job_environment        = hiera_hash('starter_job_environment', {})
+  $manage_selinux                 = hiera('manage_selinux', true)
   $pool_home                      = hiera('pool_home', '/pool')
   $pool_create                    = hiera('pool_create', true)
   $mount_under_scratch_dirs       = hiera_array('mount_under_scratch_dirs', ['/tmp', '/var/tmp'])
@@ -84,6 +105,7 @@ class htcondor::params {
   $max_walltime                   = hiera('max_walltime', '80 * 60 * 60')
   $max_cputime                    = hiera('max_cputime', '80 * 60 * 60')
   $memory_factor                  = hiera('memory_factor', '1000')
+  $dns_cache_refresh              = hiera('dns_cache_refresh', 28800+fqdn_rand(600, 'htcondor_dns_cache_refresh'))
 
   $ganglia_cluster_name           = hiera('ganglia_cluster_name', undef)
 
@@ -101,6 +123,8 @@ class htcondor::params {
   $condor_gid                     = hiera('condor_gid', 0)
 
   # authentication
+  $queue_super_users              = hiera_array('queue_super_users', [])
+  $queue_super_user_impersonate   = hiera('queue_super_user_impersonate', '')
   $use_anonymous_auth             = hiera('use_anonymous_auth', false)
   $use_fs_auth                    = hiera('use_fs_auth', true)
   $use_password_auth              = hiera('use_password_auth', true)
@@ -116,12 +140,13 @@ class htcondor::params {
   )
   $krb_map_file                   = hiera('krb_map_file', '/etc/condor/kerberos_mapfile'
   )
-  $krb_map_file_source            = hiera('krb_map_file_source', "puppet:///modules/${module_name}/kerberos_mapfile"
+  $krb_map_file_template          = hiera('krb_map_file_template', "${module_name}/mapfile.kmap.erb"
   )
   $machine_list_prefix            = hiera('machine_list_prefix', 'condor_pool@$(UID_DOMAIN)/'
   )
   $pool_password_file             = hiera('pool_password_file', "puppet:///modules/${module_name}/pool_password"
   )
+  $users_list                     = hiera('users_list', '*@$(UID_DOMAIN)')
   $ssl_server_keyfile             = hiera('ssl_server_keyfile', '')
   $ssl_client_keyfile             = hiera('ssl_client_keyfile', '')
   $ssl_server_certfile            = hiera('ssl_server_certfile', '')
@@ -135,10 +160,32 @@ class htcondor::params {
   $uses_connection_broker         = hiera('uses_connection_broker', false)
   $private_network_name           = hiera('private_network_name', $::domain)
 
+  # Schedd configuration
+  $schedd_blocked_users           = hiera_array('schedd_blocked_users', [])
+  $schedd_blocked_user_msg        = hiera('schedd_blocked_user_msg', 'Submission is blocked for you, please contact cluster admins.')
+
+  # Job default resource requests. These are interpreted as expressions.
+  $job_default_requestcpus        = hiera('job_default_requestcpus', '1')
+  $job_default_requestdisk        = hiera('job_default_requestdisk', 'DiskUsage')
+  $job_default_requestmemory      = hiera('job_default_requestmemory', 'ifthenelse(MemoryUsage =!= UNDEFINED,MemoryUsage,(ImageSize+1023)/1024)')
+
   # SharedPort service configuration
   $use_shared_port                = hiera('use_shared_port', false)
   $shared_port                    = hiera('shared_port', 9618)
   $shared_port_collector_name     = hiera('shared_port_collector_name', 'collector')
+
+  # History parameters on schedd
+  $max_history_log                = hiera('max_history_log', 104857600)
+  $max_history_rotations          = hiera('max_history_rotations', 14)
+  $rotate_history_daily           = hiera('rotate_history_daily', true)
+
+  # Custom logging config
+  $use_custom_logs                = hiera('use_custom_logs', false)
+  $log_to_syslog                  = hiera('log_to_syslog', false)
+  $logging_parameters             = hiera('logging_parameters', {})
+
+  # Custom knobs config
+  $custom_knobs                   = hiera('custom_knobs', {})
 
   # Singularity configuration
   $use_singularity                = hiera('use_singularity', false)
@@ -174,7 +221,11 @@ class htcondor::params {
   )
   $template_highavailability      = hiera('template_defrag', "${module_name}/30_highavailability.config.erb"
   )
-  $template_sharedport            = hiera('template_sharedport', "${module_name}/42_shared_port.config.erb"
+  $template_sharedport            = hiera('template_sharedport', "${module_name}/27_shared_port.config.erb"
+  )
+  $template_logging               = hiera('template_logging', "${module_name}/14_logging.config.erb"
+  )
+  $template_custom_knobs          = hiera('template_custom_knobs', "${module_name}/60_custom_knobs.config.erb"
   )
   $template_singularity           = hiera('template_singularity', "${module_name}/50_singularity.config.erb"
   )

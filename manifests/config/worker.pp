@@ -5,19 +5,25 @@ class htcondor::config::worker {
   # general - manifest or 1 or more configs
   $condor_user               = $htcondor::condor_user
   $condor_group              = $htcondor::condor_group
-  $health_check_script       = $htcondor::health_check_script
+  $healthcheck_path          = $htcondor::healthcheck_path
+  $healthcheck_script        = $htcondor::healthcheck_script
+  $healthcheck_period        = $htcondor::healthcheck_period
   # /etc/condor/config.d/20_workernode.config
   $custom_machine_attributes = $htcondor::custom_machine_attributes
   $custom_job_attributes     = $htcondor::custom_job_attributes
+  $claim_worklife            = $htcondor::claim_worklife
   $daemon_list               = $htcondor::config::daemon_list
   $enable_cgroup             = $htcondor::enable_cgroup
   $htcondor_cgroup           = $htcondor::htcondor_cgroup
+  $cgroup_memory_limit       = $htcondor::cgroup_memory_limit
   $enable_healthcheck        = $htcondor::enable_healthcheck
+  $start_always_users        = $htcondor::start_always_users
   $machine_owner             = $htcondor::machine_owner
   $memory_overcommit         = $htcondor::memory_overcommit
   $number_of_cpus            = $htcondor::number_of_cpus
   $partitionable_slots       = $htcondor::partitionable_slots
   $starter_job_environment   = $htcondor::starter_job_environment
+  $manage_selinux            = $htcondor::manage_selinux
   $pool_create               = $htcondor::pool_create
   $pool_home                 = $htcondor::pool_home
   $use_pid_namespaces        = $htcondor::use_pid_namespaces
@@ -53,8 +59,8 @@ class htcondor::config::worker {
     }
   }
 
-  file { '/usr/local/bin/healhcheck_wn_condor':
-    source => $health_check_script,
+  file { $healthcheck_path:
+    source => $healthcheck_script,
     owner  => $condor_user,
     group  => $condor_group,
     mode   => '0755',
@@ -63,8 +69,25 @@ class htcondor::config::worker {
   if $pool_create {
     $condor_directories = [
       $pool_home,
-      "${pool_home}/condor",
       '/etc/condor/persistent']
+    file { "${pool_home}/condor":
+      ensure  => directory,
+      owner   => 'condor',
+      mode    => '0644',
+      seltype => 'condor_var_lib_t',
+      require => File[$pool_home],
+    }
+    if $manage_selinux {
+      selinux::fcontext { 'htcondor-pool-selinux':
+        seltype  => 'condor_var_lib_t',
+        pathspec => "${pool_home}/condor(/.*)?",
+      }
+      ->selinux::exec_restorecon { "${pool_home}/condor":
+        recurse     => true,
+        refreshonly => true,
+        require     => File["${pool_home}/condor"],
+      }
+    }
   } else {
     $condor_directories = ['/etc/condor/persistent']
   }

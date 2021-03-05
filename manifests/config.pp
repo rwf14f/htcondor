@@ -3,10 +3,12 @@ class htcondor::config {
   $enable_multicore     = $htcondor::enable_multicore
   $ganglia_cluster_name = $htcondor::ganglia_cluster_name
   $is_scheduler         = $htcondor::is_scheduler
+  $is_remote_submit     = $htcondor::is_remote_submit
   $is_manager           = $htcondor::is_manager
   $is_worker            = $htcondor::is_worker
   $managers             = $htcondor::managers
   $use_shared_port      = $htcondor::use_shared_port
+  $use_custom_logs      = $htcondor::use_custom_logs
   $use_debug_notify     = $htcondor::use_debug_notify
 
   # purge all non-managed config files from /etc/condor/config.d
@@ -22,7 +24,14 @@ class htcondor::config {
   # SharedPort service configuration
   $sharedport_class = 'htcondor::config::sharedport'
 
+  # Logging params configuration
+  $logging_class = 'htcondor::config::logging'
+
+  # Custom params configuration
+  $custom_knobs_class = 'htcondor::config::custom_knobs'
+
   class { $common_class: }
+  contain $common_class
   $more_than_two_managers = size($managers) > 1
   $run_ganglia            = $ganglia_cluster_name != undef
 
@@ -33,6 +42,7 @@ class htcondor::config {
     $debug_msg = "constructing daemon list from \n \
                   -is_worker: ${is_worker}\n \
                   -is_scheduler: ${is_scheduler}\n \
+                  -is_remote_submit: ${is_remote_submit}\n \
                   -is_manager: ${is_manager}\n \
                   -enable_multicore: ${enable_multicore}\n \
                   -run_ganglia: ${run_ganglia} \n \
@@ -44,27 +54,37 @@ class htcondor::config {
     }
   }
 
+  if $use_custom_logs {
+    class { $logging_class: }
+    contain $logging_class
+  }
+
+  class { $custom_knobs_class: }
+  contain $custom_knobs_class
+
   if $use_shared_port {
     class { $sharedport_class: }
-    anchor { 'htcondor::common_config_done':
-      require => [ Class[$common_class], Class[$sharedport_class] ],
-    }
-  } else {
-    anchor { 'htcondor::common_config_done':
-      require => Class[$common_class]
-    }
+    contain $sharedport_class
   }
 
   if $is_scheduler {
-    class { 'htcondor::config::scheduler': require => Anchor['htcondor::common_config_done'], }
+    class { 'htcondor::config::scheduler': }
+    contain 'htcondor::config::scheduler'
+  }
+
+  if $is_remote_submit {
+    class { 'htcondor::config::remote_submit': }
+    contain 'htcondor::config::remote_submit'
   }
 
   if $is_manager {
-    class { 'htcondor::config::manager': require => Anchor['htcondor::common_config_done'], }
+    class { 'htcondor::config::manager': }
+    contain 'htcondor::config::manager'
   }
 
   if $is_worker {
-    class { 'htcondor::config::worker': require => Anchor['htcondor::common_config_done'], }
+    class { 'htcondor::config::worker': }
+    contain 'htcondor::config::worker'
   }
 
 }

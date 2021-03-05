@@ -1,5 +1,157 @@
 # Change Log
 
+## [v2.4.3](https://github.com/hep-puppet/htcondor/tree/v2.4.3)
+
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.4.2...v2.4.3)
+
+**Merged pull requests:**
+
+- Allow to define start\_always\_users. [\#108](https://github.com/HEP-Puppet/htcondor/pull/108) ([olifre](https://github.com/olifre))
+
+## [v2.4.2](https://github.com/hep-puppet/htcondor/tree/v2.4.2) (2019-05-21)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.4.1...v2.4.2)
+
+**Closed issues:**
+
+- Typo in params.pp [\#114](https://github.com/HEP-Puppet/htcondor/issues/114)
+
+**Merged pull requests:**
+
+- Converting to a standard Puppet Development Kit module [\#116](https://github.com/HEP-Puppet/htcondor/pull/116) ([kreczko](https://github.com/kreczko))
+- fix \#114 [\#115](https://github.com/HEP-Puppet/htcondor/pull/115) ([ccnifo](https://github.com/ccnifo))
+
+## [v2.4.1](https://github.com/hep-puppet/htcondor/tree/v2.4.1) (2019-05-21)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.4.0...v2.4.1)
+
+## [v2.4.0](https://github.com/hep-puppet/htcondor/tree/v2.4.0) (2019-05-21)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.3.1...v2.4.0)
+
+**Merged pull requests:**
+
+- Puppet 5 & Puppet 6 in CI [\#113](https://github.com/HEP-Puppet/htcondor/pull/113) ([kreczko](https://github.com/kreczko))
+- Add schedd\_blocked\_users and block message. [\#111](https://github.com/HEP-Puppet/htcondor/pull/111) ([olifre](https://github.com/olifre))
+- Add dns\_cache\_refresh parameter. [\#110](https://github.com/HEP-Puppet/htcondor/pull/110) ([olifre](https://github.com/olifre))
+- defrag params customizables [\#109](https://github.com/HEP-Puppet/htcondor/pull/109) ([ccnifo](https://github.com/ccnifo))
+
+## [v2.3.1](https://github.com/hep-puppet/htcondor/tree/v2.3.1) (2019-05-21)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.3.0...v2.3.1)
+
+**Merged pull requests:**
+
+- Move MASTER\_NEW\_BINARY\_RESTART=PEACEFUL to condor\_config. [\#107](https://github.com/HEP-Puppet/htcondor/pull/107) ([olifre](https://github.com/olifre))
+
+## [v2.3.0](https://github.com/hep-puppet/htcondor/tree/v2.3.0) (2019-05-21)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.2.0...v2.3.0)
+
+**Merged pull requests:**
+
+- Add support for Debian repos and new versioned repo structure. [\#106](https://github.com/HEP-Puppet/htcondor/pull/106) ([olifre](https://github.com/olifre))
+
+## [v2.2.0](https://github.com/hep-puppet/htcondor/tree/v2.2.0) (2019-05-21)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.1.0...v2.2.0)
+
+**Closed issues:**
+
+- QUEUE\_SUPER\_USERS not set [\#97](https://github.com/HEP-Puppet/htcondor/issues/97)
+
+**Merged pull requests:**
+
+- Fix lint errors on Travis test [\#112](https://github.com/HEP-Puppet/htcondor/pull/112) ([ccnifo](https://github.com/ccnifo))
+- History and logging [\#105](https://github.com/HEP-Puppet/htcondor/pull/105) ([ccnifo](https://github.com/ccnifo))
+- fix requirements range error for travis test [\#104](https://github.com/HEP-Puppet/htcondor/pull/104) ([ccnifo](https://github.com/ccnifo))
+- Make healthcheck\_period configurable. [\#102](https://github.com/HEP-Puppet/htcondor/pull/102) ([olifre](https://github.com/olifre))
+- Add a "remote\_submit" role [\#101](https://github.com/HEP-Puppet/htcondor/pull/101) ([ccnifo](https://github.com/ccnifo))
+- Make claim\_worklife configurable. [\#100](https://github.com/HEP-Puppet/htcondor/pull/100) ([olifre](https://github.com/olifre))
+- Queue super users [\#99](https://github.com/HEP-Puppet/htcondor/pull/99) ([olifre](https://github.com/olifre))
+
+## [v2.1.0](https://github.com/hep-puppet/htcondor/tree/v2.1.0) (2018-07-17)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.0.9...v2.1.0)
+
+**Implemented enhancements:**
+
+- Add general knob turning [\#57](https://github.com/HEP-Puppet/htcondor/issues/57)
+
+**Merged pull requests:**
+
+- Feature: custom params [\#95](https://github.com/HEP-Puppet/htcondor/pull/95) ([ccnifo](https://github.com/ccnifo))
+
+## [v2.0.9](https://github.com/hep-puppet/htcondor/tree/v2.0.9) (2018-07-17)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.0.8...v2.0.9)
+
+**Merged pull requests:**
+
+- CGROUP\_MEMORY\_LIMIT\_POLICY customizable [\#96](https://github.com/HEP-Puppet/htcondor/pull/96) ([ccnifo](https://github.com/ccnifo))
+- parameterize healthcheck script path [\#93](https://github.com/HEP-Puppet/htcondor/pull/93) ([ccnifo](https://github.com/ccnifo))
+
+## [v2.0.8](https://github.com/hep-puppet/htcondor/tree/v2.0.8) (2018-05-31)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.0.7...v2.0.8)
+
+**Closed issues:**
+
+- \[Regression\] Unable to specify actual expression for SINGULARITY\_IMAGE\_EXPR since 2.0.7 [\#91](https://github.com/HEP-Puppet/htcondor/issues/91)
+
+**Merged pull requests:**
+
+- Fixup SINGULARITY\_IMAGE\_EXPR [\#92](https://github.com/HEP-Puppet/htcondor/pull/92) ([olifre](https://github.com/olifre))
+
+## [v2.0.7](https://github.com/hep-puppet/htcondor/tree/v2.0.7) (2018-05-31)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.0.6...v2.0.7)
+
+**Merged pull requests:**
+
+- Fixing invalid SINGULARITY\_IMAGE\_EXPR by adding missing double-quotes [\#90](https://github.com/HEP-Puppet/htcondor/pull/90) ([kreczko](https://github.com/kreczko))
+
+## [v2.0.6](https://github.com/hep-puppet/htcondor/tree/v2.0.6) (2018-05-02)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.0.5...v2.0.6)
+
+**Merged pull requests:**
+
+- Custom logging manifest [\#89](https://github.com/HEP-Puppet/htcondor/pull/89) ([ccnifo](https://github.com/ccnifo))
+
+## [v2.0.5](https://github.com/hep-puppet/htcondor/tree/v2.0.5) (2018-05-02)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.0.4...v2.0.5)
+
+**Merged pull requests:**
+
+- Kerberos auth support in security config [\#88](https://github.com/HEP-Puppet/htcondor/pull/88) ([ccnifo](https://github.com/ccnifo))
+
+## [v2.0.4](https://github.com/hep-puppet/htcondor/tree/v2.0.4) (2018-02-05)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.0.3...v2.0.4)
+
+**Fixed bugs:**
+
+- CGROUPS setup in 20\_workernode.config.erb [\#78](https://github.com/HEP-Puppet/htcondor/issues/78)
+
+**Closed issues:**
+
+- Badly initialized variables [\#79](https://github.com/HEP-Puppet/htcondor/issues/79)
+- healhcheck script mode [\#77](https://github.com/HEP-Puppet/htcondor/issues/77)
+- Some changes aren't working [\#73](https://github.com/HEP-Puppet/htcondor/issues/73)
+- Changes in HTCondor 8.6.1 [\#58](https://github.com/HEP-Puppet/htcondor/issues/58)
+
+**Merged pull requests:**
+
+- Fixing permissions for worker healthcheck script \(issue \#77\) [\#87](https://github.com/HEP-Puppet/htcondor/pull/87) ([kreczko](https://github.com/kreczko))
+- config::worker Fix puppet lint warning. [\#86](https://github.com/HEP-Puppet/htcondor/pull/86) ([olifre](https://github.com/olifre))
+- Repair metadata.json syntax. [\#85](https://github.com/HEP-Puppet/htcondor/pull/85) ([olifre](https://github.com/olifre))
+- Remove MOUNT\_UNDER\_SCRATCH if no folders are defined [\#84](https://github.com/HEP-Puppet/htcondor/pull/84) ([kreczko](https://github.com/kreczko))
+- Add parameters gpgcheck and gpgkey [\#83](https://github.com/HEP-Puppet/htcondor/pull/83) ([wiene](https://github.com/wiene))
+- Central manager HA with shared port [\#82](https://github.com/HEP-Puppet/htcondor/pull/82) ([wiene](https://github.com/wiene))
+- Setting of correct SELinux context for pool directory if we create it. [\#81](https://github.com/HEP-Puppet/htcondor/pull/81) ([olifre](https://github.com/olifre))
+
+## [v2.0.3](https://github.com/hep-puppet/htcondor/tree/v2.0.3) (2017-11-03)
+[Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.0.2...v2.0.3)
+
+**Merged pull requests:**
+
+- Fixing CGroup issue and badly initialized variables [\#80](https://github.com/HEP-Puppet/htcondor/pull/80) ([kreczko](https://github.com/kreczko))
+- Add starter environment configuration [\#76](https://github.com/HEP-Puppet/htcondor/pull/76) ([olifre](https://github.com/olifre))
+- init: Fixup parameter default values. [\#75](https://github.com/HEP-Puppet/htcondor/pull/75) ([olifre](https://github.com/olifre))
+- Remove bad quotes from MOUNT\_UNDER\_SCRATCH variable. [\#74](https://github.com/HEP-Puppet/htcondor/pull/74) ([olifre](https://github.com/olifre))
+- Allow to turn off debug notification. [\#72](https://github.com/HEP-Puppet/htcondor/pull/72) ([olifre](https://github.com/olifre))
+- Add singularity support. [\#71](https://github.com/HEP-Puppet/htcondor/pull/71) ([olifre](https://github.com/olifre))
+- security: Change CM authentication to use ALLOW instead of HOSTALLOW. [\#70](https://github.com/HEP-Puppet/htcondor/pull/70) ([olifre](https://github.com/olifre))
+
 ## [v2.0.2](https://github.com/hep-puppet/htcondor/tree/v2.0.2) (2017-07-17)
 [Full Changelog](https://github.com/hep-puppet/htcondor/compare/v2.0.0...v2.0.2)
 
@@ -9,6 +161,7 @@
 
 **Merged pull requests:**
 
+- updated to version \(2.0.2\) and added changelog [\#69](https://github.com/HEP-Puppet/htcondor/pull/69) ([kreczko](https://github.com/kreczko))
 - Implement SSL authentication [\#65](https://github.com/HEP-Puppet/htcondor/pull/65) ([olifre](https://github.com/olifre))
 - htcondor::security Pull CERTIFICATE\_MAPFILE out of krb-auth dependency. [\#64](https://github.com/HEP-Puppet/htcondor/pull/64) ([olifre](https://github.com/olifre))
 - Allow to specify the source for certificate and kerberos map files. [\#63](https://github.com/HEP-Puppet/htcondor/pull/63) ([olifre](https://github.com/olifre))

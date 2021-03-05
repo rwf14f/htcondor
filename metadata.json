@@ -1,39 +1,49 @@
 {
   "name": "HEPPuppet-htcondor",
-  "version": "2.0.2",
-  "summary": "Puppet module for HTCondor batch system",
+  "version": "2.4.3",
   "author": "HEPPuppet",
-  "requirements": [
-    {
-      "name": "puppetlabs/firewall",
-      "version_requirement": "~> 1.8"
-    },
-    {
-      "name": "puppetlabs/stdlib",
-      "version_requirement": ">= 4.1"
-    }
-  ],
+  "summary": "Puppet module for HTCondor batch system",
+  "license": "Apache-2.0",
   "source": "https://github.com/HEP-Puppet",
   "project_page": "https://github.com/HEP-Puppet",
   "issues_url": "https://github.com/HEP-Puppet/htcondor/issues",
-  "license": "Apache-2.0",
-  "operatingsystem_support": [
+  "dependencies": [
     {
-      "operatingsystem": "RedHat",
-      "operatingsystemrelease": [
-        "6",
-        "7"
-      ]
+      "name": "puppet/selinux",
+      "version_requirement": "> 1.0.0"
     },
     {
-      "operatingsystem": "CentOS",
+      "name": "puppetlabs/apt",
+      "version_requirement": "> 6.2.1"
+    }
+  ],
+  "operatingsystem_support": [
+    {
       "operatingsystemrelease": [
         "6",
         "7"
-      ]
+      ],
+      "operatingsystem": "RedHat"
+    },
+    {
+      "operatingsystemrelease": [
+        "6",
+        "7"
+      ],
+      "operatingsystem": "CentOS"
     }
   ],
-  "dependencies": [
-
-  ]
+  "requirements": [
+    {
+      "name": "puppetlabs/firewall",
+      "version_requirement": ">= 1.8.0 < 2.0.0"
+    },
+    {
+      "name": "puppetlabs/stdlib",
+      "version_requirement": ">= 4.1.0 < 5.0.0"
+    }
+  ],
+  "pdk-version": "1.10.0",
+  "template-url": "file:///opt/puppetlabs/pdk/share/cache/pdk-templates.git#1.10.0",
+  "template-ref": "1.10.0-0-gbba9ac3"
 }
